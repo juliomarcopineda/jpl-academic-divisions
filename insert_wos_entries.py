@@ -2,6 +2,7 @@ import csv
 import pprint
 
 from pathlib import Path
+from pymongo import MongoClient
 
 wos_header_map = {
     "FN": "File Name",
@@ -72,9 +73,9 @@ wos_header_map = {
     "PM": "PubMed ID",
     "UT": "Accession Number",
     "OA": "Open Access Indicator",
-    "HP": "ESI Hot Paper. Note that this field is valued only for ESI subscribers.",
-    "HC": "ESI Highly Cited Paper. Note that this field is valued only for ESI subscribers.",
-    "DA": "Date this report was generated.",
+    "HP": "ESI Hot Paper",
+    "HC": "ESI Highly Cited Paper",
+    "DA": "Date this report was generated",
     "ER": "End of Record",
     "EF": "End of File"
 }
@@ -87,7 +88,7 @@ def get_wos_header_name(wos_header):
     return wos_header_map[wos_header]
 
 
-def get_wos_entries(path):
+def insert_entries(path, collection):
     with open(path, "r", encoding="utf-8-sig") as csvfile:
         reader = csv.reader(csvfile, delimiter="\t")
         headers = []
@@ -100,14 +101,24 @@ def get_wos_entries(path):
                     for header, value in zip(headers, row)
                 }
 
-                pprint.pprint(entry)
+                collection.insert_one(entry)
          
 
 if __name__ == "__main__":
-    caltech_data = Path("data/caltech")
-    files = [f for f in caltech_data.glob("**/*")]
+    # Setup Mongo connections
+    client = MongoClient()
+    db = client.wos
 
-    print(files)
+    caltech_wos_collection = db.caltech_wos
+    caltech_wos_collection.drop()
+    jpl_wos_collection = db.jpl_wos
+    jpl_wos_collection.drop()
 
-    # test_path = "data/caltech/1-500.txt"
-    # get_wos_entries(test_path)
+    caltech_data_dir = Path("data/caltech")
+    jpl_data_dir = Path("data/jpl")
+
+    for data_file in caltech_data_dir.glob("**/*"):
+        insert_entries(data_file, caltech_wos_collection)
+    
+    for data_file in jpl_data_dir.glob("**/*"):
+        insert_entries(data_file, jpl_wos_collection)
