@@ -1,8 +1,8 @@
 import csv
 import pprint
 
+from mongo.mongo_provider import MongoProvider
 from pathlib import Path
-from pymongo import MongoClient
 
 wos_header_map = {
     "FN": "File Name",
@@ -105,13 +105,13 @@ def insert_entries(path, collection):
          
 
 if __name__ == "__main__":
-    # Setup Mongo connections
-    client = MongoClient()
-    db = client.wos
+    # Setup collections to insert raw data
+    mongo_provider = MongoProvider()
+    caltech_wos_collection = mongo_provider.get_caltech_wos_collection()
+    jpl_wos_collection = mongo_provider.get_jpl_wos_collection()
 
-    caltech_wos_collection = db.caltech_wos
+    # Drop collections
     caltech_wos_collection.drop()
-    jpl_wos_collection = db.jpl_wos
     jpl_wos_collection.drop()
 
     caltech_data_dir = Path("data/caltech")
