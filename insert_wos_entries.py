@@ -1,5 +1,6 @@
 import csv
 import pprint
+import uuid
 
 from mongo.mongo_provider import MongoProvider
 from pathlib import Path
@@ -100,6 +101,9 @@ def insert_entries(path, collection):
                     get_wos_header_name(header): value 
                     for header, value in zip(headers, row)
                 }
+
+                uuid_string = str(uuid.uuid4())
+                entry["_id"] = uuid_string
 
                 collection.insert_one(entry)
          

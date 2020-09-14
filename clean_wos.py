@@ -48,7 +48,7 @@ def parse_author_address_stirng(author_address_string):
 def clean_entries(organization):
     wos_collection = get_collection_by_organization(organization)
     
-    for idx, doc in enumerate(wos_collection.find()):
+    for doc in wos_collection.find():
         cleaned_entry = {}
 
         # Raw data
