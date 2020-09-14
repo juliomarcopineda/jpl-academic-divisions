@@ -10,3 +10,6 @@ class MongoProvider:
     
     def get_jpl_wos_collection(self):
         return self.db.jpl_wos
+
+    def get_publications_collection(self):
+        return self.db.publications
