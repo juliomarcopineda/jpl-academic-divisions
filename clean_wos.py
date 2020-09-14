@@ -1,5 +1,7 @@
 import re
 import sys
+import text_cleaner
+
 
 from pprint import pprint
 from mongo.mongo_provider import MongoProvider
@@ -48,7 +50,10 @@ def parse_author_address_stirng(author_address_string):
 def clean_entries(organization):
     wos_collection = get_collection_by_organization(organization)
     
-    for doc in wos_collection.find():
+    for idx, doc in enumerate(wos_collection.find(no_cursor_timeout=True)):
+        if idx % 10 == 0:
+            print(f"STATUS: {idx}")
+
         cleaned_entry = {}
 
         # Raw data
@@ -82,7 +87,16 @@ def clean_entries(organization):
 
         cleaned_entry["authors"] = author_entries
 
+        # Clean text and tokenize
+        raw_text = title + " " + abstract
+        cleaned_text = text_cleaner.clean_text(raw_text)
+        tokens = text_cleaner.tokenize_text(cleaned_text)
+
+        cleaned_entry["tokens"] = tokens
+
         publications_collection.insert_one(cleaned_entry)
+
+    print(f"STATUS: {idx}")
 
 
 if __name__ == "__main__":
