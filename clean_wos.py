@@ -11,13 +11,7 @@ mongo_provider = MongoProvider()
 author_address_regex = r";\s*(?![^[]*])"
 bracket_regex = r"\[(.*?)\]"
 publications_collection = mongo_provider.get_publications_collection()
-
-
-def get_collection_by_organization(organization):
-    if organization == "Caltech":
-        return mongo_provider.get_caltech_wos_collection()
-    else:
-        return mongo_provider.get_jpl_wos_collection()
+wos_collection = mongo_provider.get_wos_collection()
 
 
 def parse_author_address_stirng(author_address_string):
@@ -47,9 +41,7 @@ def parse_author_address_stirng(author_address_string):
     return author_to_addresses
 
 
-def clean_entries(organization):
-    wos_collection = get_collection_by_organization(organization)
-    
+def clean_entries():
     for idx, doc in enumerate(wos_collection.find(no_cursor_timeout=True)):
         if idx % 1000 == 0:
             print(f"STATUS: {idx}")
@@ -69,7 +61,6 @@ def clean_entries(organization):
             cleaned_entry["title"] = title
             cleaned_entry["abstract"] = abstract
             cleaned_entry["documentType"] = doc_type
-            cleaned_entry["organization"] = [organization]
 
             # Parse the author list
             authors = [author.strip() for author in author_list_string.split(";")]
@@ -102,6 +93,4 @@ def clean_entries(organization):
 
 if __name__ == "__main__":
     publications_collection.drop()
-
-    for organization in ["Caltech", "JPL"]:
-        clean_entries(organization)
+    clean_entries()
