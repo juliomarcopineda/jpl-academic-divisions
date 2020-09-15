@@ -22,11 +22,10 @@ Thus, the problem changes to the following:
 ### Gathering Publication Data
 We must source publication data from Caltech and JPL to accomplish this task. We obtained articles and conference proceedings from Web of Science with the following filter:
 - `Organization-Enhanced`: Califonia Institute of Technology or NASA Jet Propulsion Lab
-- `Dates`: Last 5 years (2017 - 2021)
+- `Dates`: 5 date range (2015, 2016, 2017, 2018, 2019)
 
-Here are the number of publications found:
-- `Caltech`: 19206
-- `JPL`: 8310
+Here are the number of records found:
+- 21175
 
 We will store all of this data into MongoDB
 
