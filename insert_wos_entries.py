@@ -90,7 +90,6 @@ def get_wos_header_name(wos_header):
 
 
 def insert_entries(path, collection):
-    print(path)
     with open(path, "r", encoding="utf-8-sig") as csvfile:
         reader = csv.reader(csvfile, delimiter="\t")
         headers = []
@@ -121,4 +120,4 @@ if __name__ == "__main__":
     print("Inserting entries")
     for data_file in data_dir.glob("**/*"):
         insert_entries(data_file, collection)
-    
+    print("Done.")
