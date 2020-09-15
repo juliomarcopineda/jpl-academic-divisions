@@ -90,6 +90,7 @@ def get_wos_header_name(wos_header):
 
 
 def insert_entries(path, collection):
+    print(path)
     with open(path, "r", encoding="utf-8-sig") as csvfile:
         reader = csv.reader(csvfile, delimiter="\t")
         headers = []
@@ -102,8 +103,7 @@ def insert_entries(path, collection):
                     for header, value in zip(headers, row)
                 }
 
-                uuid_string = str(uuid.uuid4())
-                entry["_id"] = uuid_string
+                entry["_id"] = entry["Accession Number"]
 
                 collection.insert_one(entry)
          
@@ -121,8 +121,10 @@ if __name__ == "__main__":
     caltech_data_dir = Path("data/caltech")
     jpl_data_dir = Path("data/jpl")
 
+    print("Inserting entries for Caltech")
     for data_file in caltech_data_dir.glob("**/*"):
         insert_entries(data_file, caltech_wos_collection)
     
+    print("Inserting entries for JPL")
     for data_file in jpl_data_dir.glob("**/*"):
         insert_entries(data_file, jpl_wos_collection)
