@@ -111,20 +111,14 @@ def insert_entries(path, collection):
 if __name__ == "__main__":
     # Setup collections to insert raw data
     mongo_provider = MongoProvider()
-    caltech_wos_collection = mongo_provider.get_caltech_wos_collection()
-    jpl_wos_collection = mongo_provider.get_jpl_wos_collection()
+    collection = mongo_provider.get_wos_collection()
 
-    # Drop collections
-    caltech_wos_collection.drop()
-    jpl_wos_collection.drop()
+    # Drop collection
+    collection.drop()
 
-    caltech_data_dir = Path("data/caltech")
-    jpl_data_dir = Path("data/jpl")
+    data_dir = Path("data/")
 
-    print("Inserting entries for Caltech")
-    for data_file in caltech_data_dir.glob("**/*"):
-        insert_entries(data_file, caltech_wos_collection)
+    print("Inserting entries")
+    for data_file in data_dir.glob("**/*"):
+        insert_entries(data_file, collection)
     
-    print("Inserting entries for JPL")
-    for data_file in jpl_data_dir.glob("**/*"):
-        insert_entries(data_file, jpl_wos_collection)
