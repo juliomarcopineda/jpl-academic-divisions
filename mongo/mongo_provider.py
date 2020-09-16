@@ -10,3 +10,6 @@ class MongoProvider:
 
     def get_publications_collection(self):
         return self.db.publications
+
+    def get_authors_collection(self):
+        return self.db.authors

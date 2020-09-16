@@ -4,68 +4,99 @@ import sys
 import uuid
 
 
-def get_author_key_exact(author_name_dict, name_check):
-    for author_key, name in author_name_dict.items():
-        if name_check == name:
-            return author_key
+jpl_address_check = [
+    "jet prop lab",
+    "4800 oak grove dr",
+    "jpl",
+    "nasa jet prop lab",
+    "jet prop laboratory",
+    "jet propulsion lab",
+    "jet prop labs",
+    "nasa jpl"
+]
+
+
+visited_names = {}
+
+
+def is_jpl_address(address):
+    address_split = [s.strip().lower() for s in address.split(",")]
+
+    for address_part in address_split:
+        if address_part in jpl_address_check:
+            return True
+
+    return False
+
+
+def is_caltech_address(address):
+    return "CALTECH" in address and not is_jpl_address(address)
 
 
 if __name__ == "__main__":
     mongo_provider = MongoProvider()
-    collection = mongo_provider.get_publications_collection()
+    publication_collection = mongo_provider.get_publications_collection()
     
-    unique_authors = set()
-    for doc in collection.find():
+    print("Determining author entries")
+
+    author_data_dict = {}
+    for idx, doc in enumerate(publication_collection.find()):
+        if idx % 1000 == 0:
+            print(f"STATUS: {idx}")
+
         document_id = doc["_id"]
         author_entries = doc["authors"]
         for author_entry in author_entries:
+            # Set up data entry for author name
             name = author_entry["name"]
-            unique_authors.add(name)
-
-    author_list = [author for author in unique_authors]
-    print(len(author_list))
-    sys.exit()
-    author_list.sort()
-    for author in author_list:
-        print(author)
-
-    sys.exit()
-
-    author_name_dict = {}
-    author_docs_dict = {}
-    author_addresses_dict = {}
-
-    for doc in collection.find():
-        document_id = doc["_id"]
-        author_entries = doc["authors"]
-        for author_entry in author_entries:
-            name = author_entry["name"]
-            addresses = author_entry["addresses"]
-
-            author_key = get_author_key_exact(author_name_dict, name)
-            if not author_key:
-                author_key = str(uuid.uuid4())
-                
-                author_name_dict[author_key] = [name]
-                author_docs_dict[author_key] = set()
-                author_docs_dict[author_key].add(document_id)
-                author_addresses_dict[author_key] = set()
-                for address in addresses:
-                    author_addresses_dict[author_key].add(address)
+            key = None
+            if name in visited_names:
+                key = visited_names[name]
             else:
-                author_docs_dict[author_key].add(document_id)
-                author_addresses_dict[author_key].add(address)
-    
-    author_name_list = [name for name in author_name_dict.keys()]
-    author_name_list.sort()
+                key = str(uuid.uuid4())
+                visited_names[name] = key
 
-    for name in author_name_list:
-        print(name)
-    sys.exit()
+            # Get entry
+            entry = author_data_dict.get(key, {})
+            entry["_id"] = key
 
-    for i in range(len(author_name_list)):
-        name1 = author_name_list[i]
-        for j in range(i + 1, len(author_name_list)):
-            name2 = author_name_list[j]
+            # Determine affiliations
+            valid_author = False
+            affiliations = set(affiliation for affiliation in entry.get("affiliations", []))
 
+            addresses = author_entry["addresses"]
+            valid_addresses = set(a for a in entry.get("addresses", []))
+            for address in addresses:
+                if is_jpl_address(address):
+                    valid_author = True
+                    affiliations.add("JPL")
+                    valid_addresses.add(address)
+                elif is_caltech_address(address):
+                    valid_author = True
+                    affiliations.add("Caltech")
+                    valid_addresses.add(address)
+            
+            # Don't store data if author is not Caltech or JPL
+            if not valid_author:
+                continue
+            
+            entry["affiliations"] = [affiliation for affiliation in affiliations]
+            entry["addresses"] = [address for address in valid_addresses]
+            entry["name"] = name
 
+            # Add in document id list
+            publications = entry.get("publications", [])
+            publications.append(document_id)
+            entry["publications"] = publications
+
+            author_data_dict[key] = entry
+    print(f"STATUS: {idx}")
+
+    print("Inserting to authors publication_collection")
+    print(f"Number of entries: {len(author_data_dict)}")
+    authors_collection = mongo_provider.get_authors_collection()
+    authors_collection.drop()
+    for entry in author_data_dict.values():
+        authors_collection.insert_one(entry)
+
+    print("Done.")
