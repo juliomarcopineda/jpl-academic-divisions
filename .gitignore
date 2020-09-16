@@ -28,3 +28,6 @@ hs_err_pid*
 # Python related files
 local-venv/
 __pycache__/
+
+# Misc file
+*.DS_Store

@@ -115,7 +115,7 @@ if __name__ == "__main__":
     # Drop collection
     collection.drop()
 
-    data_dir = Path("data/")
+    data_dir = Path("data/wos")
 
     print("Inserting entries")
     for data_file in data_dir.glob("**/*"):
