@@ -12,7 +12,8 @@ jpl_address_check = [
     "jet prop laboratory",
     "jet propulsion lab",
     "jet prop labs",
-    "nasa jpl"
+    "nasa jpl",
+    "jet propusl laborotory"
 ]
 
 
