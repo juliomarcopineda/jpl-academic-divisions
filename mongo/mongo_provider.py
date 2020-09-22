@@ -13,3 +13,6 @@ class MongoProvider:
 
     def get_authors_collection(self):
         return self.db.authors
+    
+    def get_clean_authors_collection(self):
+        return self.db.clean_authors
