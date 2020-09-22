@@ -63,7 +63,7 @@ def merge_docs(dup_docs):
 def get_deduplicated_authors():
     data = []
 
-    raw_author_docs = [doc for doc in raw_authors_collection.find({"affiliations": {"$in": "JPL"}})]
+    raw_author_docs = [doc for doc in raw_authors_collection.find({"affiliations": "JPL"})]
     last_name_to_docs = get_last_name_to_docs(raw_author_docs)
 
     for last_name, author_docs in last_name_to_docs.items():
