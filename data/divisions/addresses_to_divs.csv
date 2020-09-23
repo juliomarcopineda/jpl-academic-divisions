@@ -1570,7 +1570,7 @@ address,division
 "CALTECH, NASA, Herschel Sci Ctr, IPAC, MC100-22, Pasadena, CA 91125 USA",PMA
 "CALTECH, NASA, Herschel Sci Ctr, IPAC, Pasadena, CA 91125 USA",PMA
 "CALTECH, Beckman Inst, Mol Mat Resource Ctr, Pasadena, CA 91125 USA",CCE
-"CALTECH, Beckman Inst, Mol Mat Res Ctr, MC 139-74,1200 East Calif Blvd, Pasadena, CA 91125 USA",CCe
+"CALTECH, Beckman Inst, Mol Mat Res Ctr, MC 139-74,1200 East Calif Blvd, Pasadena, CA 91125 USA",CCE
 "CALTECH, Beckman Inst, Mol Mat Res Ctr, 1200 E Calif Blvd, Pasadena, CA 91125 USA",CCE
 "CALTECH, NASA, IPAC, Exoplanet Sci Inst, 770 S Wilson Ave, Pasadena, CA 91106 USA",PMA
 "CALTECH, NASA, IPAC, Exoplanet Sci Inst, M-S 100-22,770 S Wilson Ave, Pasadena, CA 91106 USA",PMA
@@ -1895,4 +1895,3 @@ address,division
 "CALTECH, 1200 Calif Blvd, Pasadena, CA 91125 USA",
 "CALTECH CaRT, Pasadena, CA 91125 USA",
 "Walter Burke Inst Theoret Phys, CALTECH 452-48, Pasadena, CA 91125 USA",PMA
-,"EAS, GPS, CCE"
