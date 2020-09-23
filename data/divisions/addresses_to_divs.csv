@@ -574,8 +574,8 @@ address,division
 "CALTECH, Dept Geol & Planetary Sci, Seismol Lab, Pasadena, CA 91125 USA",GPS
 "CALTECH, Dept Geol Sci, Pasadena, CA 91125 USA",GPS
 "CALTECH, Dept Geophys & Planetary Sci, Pasadena, CA 91125 USA",GPS
-"CALTECH, Dept Humanities & Social Sci, 1200 E Calif Blvd,MC 228-77, Pasadena, CA 91125 USA",HHS
-"CALTECH, Dept Humanities & Social Sci, Pasadena, CA 91125 USA",HHS
+"CALTECH, Dept Humanities & Social Sci, 1200 E Calif Blvd,MC 228-77, Pasadena, CA 91125 USA",HSS
+"CALTECH, Dept Humanities & Social Sci, Pasadena, CA 91125 USA",HSS
 "CALTECH, Infrared Proc & Anal Ctr, MS314-6, Pasadena, CA 91125 USA",PMA
 "CALTECH, Dept Mat Sci & Appl Phys, Pasadena, CA 91125 USA",EAS
 "CALTECH, Infrared Proc & Anal Ctr, MS314 6, Pasadena, CA 91125 USA",PMA
@@ -648,7 +648,7 @@ address,division
 "CALTECH, Geol & Planetary Sci, Lunat Asylum, Pasadena, CA 91125 USA",GPS
 "CALTECH, Dept Phys & Appl Phys, Pasadena, CA 91125 USA",EAS
 "CALTECH, Geol & Planetary Sci, 1200 E Calif Blvd, Pasadena, CA 91125 USA",GPS
-"CALTECH, Geol & Planetary Sci Div, Pasadena, CA 91125 USA",HPS
+"CALTECH, Geol & Planetary Sci Div, Pasadena, CA 91125 USA",GPS
 "CALTECH, Geol & Planetary Sci Dept, Pasadena, CA 91125 USA",GPS
 "CALTECH, Dept Phys Appl Phys & Bioengn, 1200 E Calif Blvd, Pasadena, CA 91125 USA",EAS
 "CALTECH, Flight Path Control Grp, Pasadena, CA 91109 USA",EAS
