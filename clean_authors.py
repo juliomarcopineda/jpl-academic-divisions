@@ -66,7 +66,7 @@ def get_deduplicated_authors():
     raw_author_docs = [doc for doc in raw_authors_collection.find({"affiliations": "JPL"})]
     last_name_to_docs = get_last_name_to_docs(raw_author_docs)
 
-    for last_name, author_docs in last_name_to_docs.items():
+    for author_docs in last_name_to_docs.values():
         full_name_to_doc = {doc["name"]: doc for doc in author_docs}
         full_names = full_name_to_doc.keys()
         groups = get_name_groups(full_names)
@@ -208,12 +208,5 @@ if __name__ == "__main__":
     clean_authors_collection.drop()
     deduped_entries = get_deduplicated_authors()
 
-    output = "data/authors/authors_dedup.csv"
-
-    with open(output, "w") as csvfile:
-        writer = csv.writer(csvfile, delimiter=",")
-        headers = deduped_entries[0].keys()
-        writer.writerow(headers)
-        for entry in deduped_entries:
-            row = [entry[header] for header in headers]
-            writer.writerow(row)
+    for entry in deduped_entries:
+        clean_authors_collection.insert_one(entry)
