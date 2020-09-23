@@ -16,3 +16,6 @@ class MongoProvider:
     
     def get_clean_authors_collection(self):
         return self.db.clean_authors
+
+    def get_divisions_collecdtion(self):
+        return self.db.divisions
