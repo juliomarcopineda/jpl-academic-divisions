@@ -1,3 +1,7 @@
+import math
+from collections import OrderedDict
+
+
 def calculate_similarity(v1, v2):
     score = 0
     for token, w1 in v1.items():
@@ -14,7 +18,24 @@ def get_unique_tokens(vectors):
     return tokens
 
 
-def get_average_vectors(vectors):
+def normalize_vector(vector):
+    normalized_vector = {}
+    norm_length = math.sqrt(sum(weight * weight for weight in vector.values()))
+    for token, weight in vector.items():
+        normalized_vector[token] = weight / norm_length
+    
+    return normalized_vector
+
+
+def sort_vector(vector):
+    sorted_vector = OrderedDict(
+            sorted(vector.items(), key=lambda kv: kv[1], reverse=True)
+    )
+
+    return sorted_vector
+
+
+def get_average_vector(vectors):
     token_weight_list = {}
     unique_tokens = get_unique_tokens(vectors)
     for vector in vectors:
