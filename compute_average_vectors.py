@@ -1,7 +1,7 @@
 from mongo.mongo_provider import MongoProvider
 import vector_utils
 
-divisions_collection = MongoProvider().get_divisions_collecdtion()
+divisions_collection = MongoProvider().get_divisions_collection()
 publications_collection = MongoProvider().get_publications_collection()
 clean_authors_collection = MongoProvider().get_clean_authors_collection()
 

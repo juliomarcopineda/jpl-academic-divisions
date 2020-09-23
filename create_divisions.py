@@ -3,7 +3,7 @@ import csv
 import vector_utils
 
 raw_author_collection = MongoProvider().get_authors_collection()
-division_collection = MongoProvider().get_divisions_collecdtion()
+division_collection = MongoProvider().get_divisions_collection()
 publications_collection = MongoProvider().get_publications_collection()
 
 address_to_division = {}
@@ -30,7 +30,7 @@ def populate_address_to_division(path):
 
 if __name__ == "__main__":
     print("Creating division entries")
-    
+
     address_div_path = "data/divisions/addresses_to_divs.csv"
     populate_address_to_division(address_div_path)
 

@@ -32,7 +32,7 @@ def determine_display_name(raw_names):
 
 
 def merge_docs(dup_docs):
-    _id = uuid.uuid4()
+    _id = str(uuid.uuid4())
     raw_names = []
     affiliations_merge = set()
     addresses_merge = set()

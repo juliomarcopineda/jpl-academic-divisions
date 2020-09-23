@@ -7,6 +7,8 @@ def calculate_similarity(v1, v2):
     for token, w1 in v1.items():
         w2 = v2.get(token, 0)
         score += w1 * w2
+    
+    return score
 
 
 def get_unique_tokens(vectors):
