@@ -58,7 +58,7 @@ if __name__ == "__main__":
     for _id, vector in tfidf_vectors.items():
         normalized_vector = normalize_vector(vector)
         sorted_normalized_vector = OrderedDict(
-            sorted(vector.items(), key=lambda kv: kv[1], reverse=True)
+            sorted(normalized_vector.items(), key=lambda kv: kv[1], reverse=True)
         )
         filter_doc = {
             "_id": _id
